@@ -6,9 +6,13 @@ Generate EKS token with signature v4 signing process.
 
 ## Quick Start
 
-> npm install aws-eks-token
+0. Install from npm.
 
-1. Generation with default credential file, the config of aws-eks-token depends on aws-sdk's implementation.
+```shell
+npm install aws-eks-token
+```
+
+1. Generation with default credential file, we will read your credentials in an effective way, the config of aws-eks-token depends on aws-sdk's implementation.
 
 ```javascript
 const EKSToken = require('aws-eks-token');
@@ -16,6 +20,16 @@ EKSToken.renew('cluster-name').then(token => {
     console.log(token);
 });
 ```
+> If more than one credential source is available to the SDK, the default precedence of selection is as follows:
+>
+> 1. Credentials that are explicitly set through the service-client constructor
+> 2. Environment variables
+> 3. The shared credentials file
+> 4. Credentials loaded from the ECS credentials provider (if applicable)
+> 5. Credentials that are obtained by using a credential process specified in the shared AWS config file or the shared credentials file. For more information, see [Loading Credentials in Node.js using a Configured Credential Process](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-configured-credential-process.html).
+> 6. Credentials loaded from AWS IAM using the credentials provider of the Amazon EC2 instance (if configured in the instance metadata)
+>
+> For more information, see [Class: AWS.Credentials](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Credentials.html) and [Class: AWS.CredentialProviderChain](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CredentialProviderChain.html) in the API reference.
 
 2. So, you can also set custom configuration like in aws-sdk.
 
