@@ -6,13 +6,13 @@ Generate EKS token with signature v4 signing process.
 
 ## Quick Start
 
-0. Install from npm.
+##### 0. Install from npm.
 
 ```shell
 npm install aws-eks-token
 ```
 
-1. Generation with default credential file, we will read your credentials in an effective way, the config of aws-eks-token depends on aws-sdk's implementation.
+##### 1. Generation with default credential file, we will read your credentials in an effective way, the config of aws-eks-token depends on aws-sdk's implementation.
 
 ```javascript
 const EKSToken = require('aws-eks-token');
@@ -31,7 +31,7 @@ EKSToken.renew('cluster-name').then(token => {
 >
 > For more information, see [Class: AWS.Credentials](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Credentials.html) and [Class: AWS.CredentialProviderChain](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CredentialProviderChain.html) in the API reference.
 
-2. So, you can also set custom configuration like in aws-sdk.
+##### 2. So, you can also set custom configuration like in aws-sdk.
 
 ```javascript
 EKSToken.config = {
@@ -41,7 +41,7 @@ EKSToken.config = {
 };
 ```
 
-3. You can set the expiration time and request time you want too.
+##### 3. You can set the expiration time and request time you want too.
 
 ```javascript
 EKSToken.renew('eks-cluster', '60', '20200930T093726Z');
