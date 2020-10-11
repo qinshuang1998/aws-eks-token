@@ -35,7 +35,7 @@ EKSToken.renew('cluster-name').then(token => {
 
 ```javascript
 EKSToken.config = {
-	accessKeyId: 'AKID',
+    accessKeyId: 'AKID',
     secretAccessKey: 'SECRET',
     region: 'us-west-2'
 };
