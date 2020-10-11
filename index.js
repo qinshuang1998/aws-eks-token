@@ -63,7 +63,12 @@ module.exports = class EKSToken {
                 `X-Amz-Expires=${expires}&` +
                 'X-Amz-SignedHeaders=host%3Bx-k8s-aws-id&' +
                 `X-Amz-Signature=${signature}`;
-            const eksToken = 'k8s-aws-v1.' + Base64.stringify(Utf8.parse(presignedURL)).replace(/=/g, '');
+            const base64Encoding = Base64.stringify(Utf8.parse(presignedURL))
+                // for url safe
+                .replace(/\+/g, '-') // Convert '+' to '-'
+                .replace(/\//g, '_') // Convert '/' to '_'
+                .replace(/=+$/, ''); // Remove ending '='
+            const eksToken = 'k8s-aws-v1.' + base64Encoding;
             return eksToken;
         })
     }
