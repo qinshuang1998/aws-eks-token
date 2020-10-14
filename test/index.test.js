@@ -1,7 +1,15 @@
 const EKSToken = require('..');
+const chai = require('chai');
+const chaiAsPromised = require("chai-as-promised");
+chai.use(chaiAsPromised);
+
 const expect = require('chai').expect;
 
 describe('Token_Generation_Test', function () {
+    it('parameter_missing', async function () {
+        await expect(EKSToken.renew()).to.be.rejectedWith('Lose the accessKeyId, secretAccessKey or region');
+    });
+
     it('set_config', function () {
         EKSToken.config = {
             accessKeyId: 'AKID',

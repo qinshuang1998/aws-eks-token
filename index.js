@@ -23,6 +23,9 @@ module.exports = class EKSToken {
                 this._config.credentials.secretAccessKey,
                 this._config.region
             ];
+            if (!accessKeyId || !secretAccessKey || !region) {
+                throw new Error('Lose the accessKeyId, secretAccessKey or region');
+            }
             // YYYYMMDD'T'HHMMSS'Z'
             const fullDate = formatTime || dayjs.utc().format('YYYYMMDDTHHmmss[Z]');
             const subDate = fullDate.substring(0, 8);
