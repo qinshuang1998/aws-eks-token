@@ -8,7 +8,8 @@ const expect = require('chai').expect;
 describe('Token_Generation_Test', function () {
     it('parameter_missing', async function () {
         EKSToken.config = {
-            accessKeyId: 'AKID'
+            accessKeyId: 'AKID',
+            secretAccessKey: 'SECRET',
         };
         await expect(EKSToken.renew()).to.be.rejectedWith('Lose the accessKeyId, secretAccessKey or region');
     });
