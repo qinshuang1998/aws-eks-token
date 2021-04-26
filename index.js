@@ -18,9 +18,10 @@ module.exports = class EKSToken {
 
     static renew(clusterName = 'eks-cluster', expires = '60', formatTime) {
         return this.preInspection().then((resolve) => {
-            const [accessKeyId, secretAccessKey, region] = [
+            const [accessKeyId, secretAccessKey, sessionToken, region] = [
                 this._config.credentials.accessKeyId,
                 this._config.credentials.secretAccessKey,
+                this._config.credentials.sessionToken,
                 this._config.region
             ];
             if (!accessKeyId || !secretAccessKey || !region) {
@@ -29,6 +30,7 @@ module.exports = class EKSToken {
             // YYYYMMDD'T'HHMMSS'Z'
             const fullDate = formatTime || dayjs.utc().format('YYYYMMDDTHHmmss[Z]');
             const subDate = fullDate.substring(0, 8);
+            const tokenHeader = sessionToken ? `X-Amz-Security-Token=${encodeURIComponent(sessionToken)}&` : '';
             const canonicalRequest =
                 'GET' + '\n' +
                 '/' + '\n' +
@@ -38,6 +40,7 @@ module.exports = class EKSToken {
                 `X-Amz-Credential=${accessKeyId}%2F${subDate}%2F${region}%2Fsts%2Faws4_request&` +
                 `X-Amz-Date=${fullDate}&` +
                 `X-Amz-Expires=${expires}&` +
+                tokenHeader +
                 `X-Amz-SignedHeaders=host%3Bx-k8s-aws-id` + '\n' +
                 `host:sts.${region}.amazonaws.com\nx-k8s-aws-id:${clusterName}\n` + '\n' +
                 'host;x-k8s-aws-id' + '\n' +
@@ -64,6 +67,7 @@ module.exports = class EKSToken {
                 `X-Amz-Credential=${accessKeyId}%2F${subDate}%2F${region}%2Fsts%2Faws4_request&` +
                 `X-Amz-Date=${fullDate}&` +
                 `X-Amz-Expires=${expires}&` +
+                tokenHeader +
                 'X-Amz-SignedHeaders=host%3Bx-k8s-aws-id&' +
                 `X-Amz-Signature=${signature}`;
             const base64Encoding = Base64.stringify(Utf8.parse(presignedURL))
