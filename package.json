@@ -1,6 +1,6 @@
 {
   "name": "aws-eks-token",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Generate EKS token with signature v4 signing process.",
   "main": "index.js",
   "scripts": {
